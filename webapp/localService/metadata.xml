@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZOS_ACADEMIA_VUELOS_SRV_03" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <EntityType Name="vuelo" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="IdVuelo"/>
+                    <PropertyRef Name="Fecha"/>
+                </Key>
+                <Property Name="IdVuelo" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Fecha" Type="Edm.DateTime" Nullable="false" Precision="0" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Aerolinea" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Destino" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Salida" Type="Edm.String" Nullable="false" MaxLength="100" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="EstadoVuelo" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <NavigationProperty Name="PersonaSet" Relationship="ZOS_ACADEMIA_VUELOS_SRV_03.VueloToPasajeros" FromRole="FromRole_VueloToPasajeros" ToRole="ToRole_VueloToPasajeros"/>
+            </EntityType>
+            <EntityType Name="Persona" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="IdVuelo"/>
+                    <PropertyRef Name="Fecha"/>
+                    <PropertyRef Name="Dni"/>
+                </Key>
+                <Property Name="IdVuelo" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Fecha" Type="Edm.DateTime" Nullable="false" Precision="0" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Dni" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Nombre" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Apellido" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <Property Name="Pais" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false"/>
+                <NavigationProperty Name="vuelo" Relationship="ZOS_ACADEMIA_VUELOS_SRV_03.VueloToPasajeros" FromRole="ToRole_VueloToPasajeros" ToRole="FromRole_VueloToPasajeros"/>
+            </EntityType>
+            <EntityType Name="Estado" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="CodEstado"/>
+                </Key>
+                <Property Name="CodEstado" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DescEstado" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+            </EntityType>
+            <Association Name="VueloToPasajeros" sap:content-version="1">
+                <End Type="ZOS_ACADEMIA_VUELOS_SRV_03.vuelo" Multiplicity="1" Role="FromRole_VueloToPasajeros"/>
+                <End Type="ZOS_ACADEMIA_VUELOS_SRV_03.Persona" Multiplicity="*" Role="ToRole_VueloToPasajeros"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_VueloToPasajeros">
+                        <PropertyRef Name="IdVuelo"/>
+                        <PropertyRef Name="Fecha"/>
+                    </Principal>
+                    <Dependent Role="ToRole_VueloToPasajeros">
+                        <PropertyRef Name="IdVuelo"/>
+                        <PropertyRef Name="Fecha"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZOS_ACADEMIA_VUELOS_SRV_03_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="vueloSet" EntityType="ZOS_ACADEMIA_VUELOS_SRV_03.vuelo" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="PersonaSet" EntityType="ZOS_ACADEMIA_VUELOS_SRV_03.Persona" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:content-version="1"/>
+                <EntitySet Name="EstadoSet" EntityType="ZOS_ACADEMIA_VUELOS_SRV_03.Estado" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
+                <AssociationSet Name="VueloToPasajerosSet" Association="ZOS_ACADEMIA_VUELOS_SRV_03.VueloToPasajeros" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="vueloSet" Role="FromRole_VueloToPasajeros"/>
+                    <End EntitySet="PersonaSet" Role="ToRole_VueloToPasajeros"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="http://sap4hana.geo:8029/sap/opu/odata/sap/ZOS_ACADEMIA_VUELOS_SRV_03/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://sap4hana.geo:8029/sap/opu/odata/sap/ZOS_ACADEMIA_VUELOS_SRV_03/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

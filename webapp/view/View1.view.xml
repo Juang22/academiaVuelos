@@ -1,0 +1,74 @@
+<mvc:View controllerName="academia.vuelos.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <Table id="idProductsTable"
+		inset="false"
+		items="{
+			path: '/vueloSet'
+		}">
+		
+		
+		<columns>
+			<Column
+				width="12em">
+				<Text text="ID Vuelo" />
+			</Column>
+			<Column
+				minScreenWidth="Tablet"
+				demandPopin="true">
+				<Text text="Fecha" />
+			</Column>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="End">
+				<Text text="Aerolinea" />
+			</Column>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Text text="Destino" />
+			</Column>
+            <Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Text text="Salida" />
+			</Column>
+            <Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Text text="Estado" />
+			</Column>
+			
+		</columns>
+		<items>
+			<ColumnListItem vAlign="Middle">
+				<cells>
+					<ObjectIdentifier
+						title="{IdVuelo}"
+						/>
+                    <Text
+						text="{path:'Fecha',type: 'sap.ui.model.type.Date',
+                            formatOptions:{
+                                pattern:'dd/MM/yyyy',UTC: true
+                            }}" 
+                        />
+					<Text
+						text="{Aerolinea}" />
+					<Text
+						text="{Destino}" />
+                        <Text
+						text="{Salida}" />
+                        <Text
+						text="{EstadoVuelo}" />
+					
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+    </Page>
+</mvc:View>
