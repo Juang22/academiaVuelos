@@ -1,11 +1,55 @@
 <mvc:View controllerName="academia.vuelos.controller.View1"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar">
     <Page id="page" title="{i18n>title}">
+        <content>
+						<fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+							<fb:filterGroupItems>
+								<fb:FilterGroupItem name="IdVuelo" label="Id Vuelo" groupName="Group1" visibleInFilterBar="true">
+									<fb:control>
+										<Input
+											name="IdVuelo"
+											change="onChangeInput"
+										/>
+											
+										
+									</fb:control>
+								</fb:FilterGroupItem>
+								<fb:FilterGroupItem name="EstadoVuelo" label="Estado" groupName="Group1" visibleInFilterBar="true">
+									<fb:control>
+										<ComboBox
+											name="EstadoVuelo"
+											selectionChange=".onSelectionChange"
+										>
+											<core:Item key="{key}" text="{name}"/>
+										</ComboBox>
+									</fb:control>
+								</fb:FilterGroupItem>
+								<fb:FilterGroupItem name="Aerolinea" label="Aerolinea" groupName="Group1" visibleInFilterBar="true">
+									<fb:control>
+										<ComboBox
+											name="Aerolinea"
+                                            id="idAerolinea"
+											selectionChange=".onSelectionAerolinea"
+                                            items="{oModelAerolineas>/}"
+										>
+											<core:Item key="{oModelAerolineas>aerolinea}" text="{oModelAerolineas>aerolinea}"/>
+										</ComboBox>
+									</fb:control>
+								</fb:FilterGroupItem>
+							</fb:filterGroupItems>
+						</fb:FilterBar>
+					</content>
+
+
+
+
         <Table id="idProductsTable"
 		inset="false"
 		items="{
-			path: '/vueloSet'
+			path: 'aModelVuelos>/'
 		}">
 		
 		
@@ -49,22 +93,22 @@
 			<ColumnListItem vAlign="Middle">
 				<cells>
 					<ObjectIdentifier
-						title="{IdVuelo}"
+						title="{aModelVuelos>IdVuelo}"
 						/>
                     <Text
-						text="{path:'Fecha',type: 'sap.ui.model.type.Date',
+						text="{path:'aModelVuelos>Fecha',type: 'sap.ui.model.type.Date',
                             formatOptions:{
                                 pattern:'dd/MM/yyyy',UTC: true
                             }}" 
                         />
 					<Text
-						text="{Aerolinea}" />
+						text="{aModelVuelos>Aerolinea}" />
 					<Text
-						text="{Destino}" />
+						text="{aModelVuelos>Destino}" />
                         <Text
-						text="{Salida}" />
+						text="{aModelVuelos>Salida}" />
                         <Text
-						text="{EstadoVuelo}" />
+						text="{aModelVuelos>EstadoVuelo}" />
 					
 				</cells>
 			</ColumnListItem>
