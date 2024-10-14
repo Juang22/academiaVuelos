@@ -5,7 +5,7 @@
     xmlns:fb="sap.ui.comp.filterbar">
     <Page id="page" title="{i18n>title}">
         <content>
-						<fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+						<fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange"  showRestoreOnFB="true"  reset="onHandleReset" afterVariantLoad=".onAfterVariantLoad">
 							<fb:filterGroupItems>
 								<fb:FilterGroupItem name="IdVuelo" label="Id Vuelo" groupName="Group1" visibleInFilterBar="true">
 									<fb:control>
@@ -87,10 +87,16 @@
 				hAlign="Center">
 				<Text text="Estado" />
 			</Column>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Text text="Acciones" />
+			</Column>
 			
 		</columns>
 		<items>
-			<ColumnListItem vAlign="Middle">
+			<ColumnListItem vAlign="Middle" type="Navigation" press="onHandleNav">
 				<cells>
 					<ObjectIdentifier
 						title="{aModelVuelos>IdVuelo}"
@@ -109,7 +115,10 @@
 						text="{aModelVuelos>Salida}" />
                         <Text
 						text="{aModelVuelos>EstadoVuelo}" />
-					
+					<HBox  alignContent="Center">
+						<Button icon="sap-icon://delete" press="onHandleDelete"></Button>
+						<Button icon="sap-icon://edit" press="onHandleUpdate"></Button>
+					</HBox>
 				</cells>
 			</ColumnListItem>
 		</items>

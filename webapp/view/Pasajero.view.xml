@@ -1,0 +1,104 @@
+<mvc:View controllerName="academia.vuelos.controller.Pasajero"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar">
+   <ObjectHeader
+		title="{oModelVuelo>/IdVuelo}"
+		
+		class="sapUiResponsivePadding--header" >
+		<statuses>
+			<ObjectStatus
+				text="Some Damaged"
+				state="Error" />
+			<ObjectStatus
+				text="In Stock"
+				state="Success" />
+		</statuses>
+		<ObjectAttribute text="" />
+		<ObjectAttribute text="{oModelVuelo>/Fecha}" />
+		 
+		<ObjectAttribute
+			text="www.sap.com"
+			active="true"
+			press="handleLinkObjectAttributePress" />
+	</ObjectHeader>
+
+     <Table id="idTable"
+		inset="false"
+		items="{
+			path: 'oModelPasajeros>/'
+		}">
+		
+		
+		<columns>
+			<Column
+				width="12em">
+				<Text text="ID Vuelo" />
+			</Column>
+			<Column
+				minScreenWidth="Tablet"
+				demandPopin="true">
+				<Text text="Fecha" />
+			</Column>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="End">
+				<Text text="Dni" />
+			</Column>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Text text="Nombre" />
+			</Column>
+            <Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Text text="Apellido" />
+			</Column>
+            <Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Text text="País" />
+			</Column>
+			<Column
+				minScreenWidth="Desktop"
+				demandPopin="true"
+				hAlign="Center">
+				<Text text="Acciones" />
+			</Column>
+			
+		</columns>
+		<items>
+			<ColumnListItem vAlign="Middle" type="Navigation" press="onHandleNav">
+				<cells>
+					<ObjectIdentifier
+						title="{oModelPasajeros>IdVuelo}"
+						/>
+                    <Text
+						text="{path:'oModelPasajeros>Fecha',type: 'sap.ui.model.type.Date',
+                            formatOptions:{
+                                pattern:'dd/MM/yyyy',UTC: true
+                            }}" 
+                        />
+					<Text
+						text="{oModelPasajeros>Dni}" />
+					<Text
+						text="{oModelPasajeros>Nombre}" />
+                        <Text
+						text="{oModelPasajeros>Apellido}" />
+                        <Text
+						text="{oModelPasajeros>Pais}" />
+					<HBox  alignContent="Center">
+						<Button icon="sap-icon://delete" press="onHandleDelete"></Button>
+						<Button icon="sap-icon://edit" press="onHandleUpdate"></Button>
+					</HBox>
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+</mvc:View>

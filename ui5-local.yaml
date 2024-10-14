@@ -28,7 +28,7 @@ server:
           - path: /sap
             url: http://sap4hana.geo:8029
             client: '800'
-            destination: geo_destination
+            destination: desGeo
     - name: sap-fe-mockserver
       beforeMiddleware: csp
       configuration:

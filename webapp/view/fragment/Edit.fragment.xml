@@ -1,0 +1,80 @@
+<core:FragmentDefinition  xmlns="sap.m" xmlns:u="sap.ui.unified" 
+xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+xmlns:core="sap.ui.core">
+    <Dialog id="editPlan" showHeader="false"  titleAlignment="Center" busyIndicatorDelay="0" contentWidth="20%" contentHeight="50%">
+        
+        <content >
+            <VBox class="sapUiSmallMargin">
+		<f:Form id="FormChange354"
+			editable="true">
+			<f:title>
+				<core:Title text="Edición de Vuelo" />
+			</f:title>
+			<f:layout>
+				<f:ResponsiveGridLayout
+					labelSpanXL="3"
+					labelSpanL="3"
+					labelSpanM="3"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="4"
+					emptySpanL="4"
+					emptySpanM="4"
+					emptySpanS="0"
+					columnsXL="1"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="IdVuelo">
+							<f:fields>
+								<Input editable="false" value="{oModelEdit>/IdVuelo}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Fecha">
+							<f:fields>
+								<Input editable="false" value="{ path: 'oModelEdit>/Fecha', type: 'sap.ui.model.type.Date',
+                            formatOptions:{
+                                pattern:'dd/MM/yyyy',UTC: true
+                            }}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Aerolinea">
+							<f:fields>
+								<Input value="{oModelEdit>/Aerolinea}">
+									
+								</Input>
+								
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Destino">
+							<f:fields>
+								<Input value="{oModelEdit>/Destino}" ></Input>
+							</f:fields>
+						</f:FormElement>
+                        <f:FormElement label="Salida">
+							<f:fields>
+								<Input value="{oModelEdit>/Salida}" ></Input>
+							</f:fields>
+						</f:FormElement>
+                        <f:FormElement label="Estado">
+							<f:fields>
+								<Input value="{oModelEdit>/EstadoVuelo}" ></Input>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+
+        </content>
+        <buttons>
+            <Button text="Cancelar" type="Ghost"  press="onCloseEdit" />
+            <Button text="Guardar Cambios" type="Ghost"  press="onHandleSaveEdit"  />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

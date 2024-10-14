@@ -107,15 +107,25 @@
           "target": [
             "TargetView1"
           ]
+        },
+        {
+          "name": "pasajero",
+          "pattern": "pasajero/{IdVuelo},{Fecha}",
+          "target": [
+            "TargetPasajero"
+          ]
         }
       ],
       "targets": {
         "TargetView1": {
           "viewType": "XML",
           "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "View1",
           "viewName": "View1"
+        },
+        "TargetPasajero": {
+          "viewType": "XML",
+          "transition": "slide",
+          "viewName": "Pasajero"
         }
       }
     },

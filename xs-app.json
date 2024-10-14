@@ -5,7 +5,7 @@
     {
       "source": "^/sap/(.*)$",
       "target": "/sap/$1",
-      "destination": "geo_destination",
+      "destination": "desGeo",
       "authenticationType": "xsuaa",
       "csrfProtection": false
     },
