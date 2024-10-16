@@ -1,0 +1,94 @@
+<core:FragmentDefinition  xmlns="sap.m" xmlns:u="sap.ui.unified" 
+xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form"
+xmlns:core="sap.ui.core">
+    <Dialog id="crearVuelo" showHeader="false" title="Crear Vuelo" titleAlignment="Center" busyIndicatorDelay="0" contentWidth="20%" contentHeight="50%">
+        
+        <content >
+            <VBox class="sapUiSmallMargin">
+		<f:Form 
+			editable="true">
+			<f:title>
+				<core:Title text="Edición de Vuelo" />
+			</f:title>
+			<f:layout>
+				<f:ResponsiveGridLayout
+					labelSpanXL="3"
+					labelSpanL="3"
+					labelSpanM="3"
+					labelSpanS="12"
+					adjustLabelSpan="false"
+					emptySpanXL="4"
+					emptySpanL="4"
+					emptySpanM="4"
+					emptySpanS="0"
+					columnsXL="1"
+					columnsL="1"
+					columnsM="1"
+					singleContainerFullSize="false" />
+			</f:layout>
+			<f:formContainers>
+				<f:FormContainer>
+					<f:formElements>
+						<f:FormElement label="IdVuelo">
+							<f:fields>
+								<Input editable="true" value="{oModelCreate>/IdVuelo}" />
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Fecha">
+							<f:fields>
+								
+                            <DatePicker
+                                id="DP1"
+                                placeholder="Ingrese Fecha"
+                                change="handleChange"
+                                class="sapUiSmallMarginBottom"
+                                value="{oModelCreate>/Fecha}"/>
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Aerolinea">
+							<f:fields>
+								<ComboBox
+											name="Aerolinea"
+											selectionChange=".onSelectionAerolinea"
+                                            items="{oModelAerolineas>/}"
+                                            selectedKey="{oModelCreate>/Aerolinea}"
+										>
+											<core:Item key="{oModelAerolineas>aerolinea}" text="{oModelAerolineas>aerolinea}"/>
+										</ComboBox>
+								
+							</f:fields>
+						</f:FormElement>
+						<f:FormElement label="Destino">
+							<f:fields>
+								<Input value="{oModelCreate>/Destino}" ></Input>
+							</f:fields>
+						</f:FormElement>
+                        <f:FormElement label="Salida">
+							<f:fields>
+								<Input value="{oModelCreate>/Salida}" ></Input>
+							</f:fields>
+						</f:FormElement>
+                        <f:FormElement label="Estado">
+							<f:fields>
+								<ComboBox
+											selectionChange=".onSelectionEstado"
+                                            items="{oModelEstado>/}"
+                                            selectedKey="{oModelCreate>/EstadoVuelo}"
+										>
+											<core:Item key="{oModelEstado>valor}" text="{oModelEstado>estado}"/>
+										</ComboBox>
+							</f:fields>
+						</f:FormElement>
+					</f:formElements>
+				</f:FormContainer>
+			</f:formContainers>
+		</f:Form>
+	</VBox>
+
+        </content>
+        <buttons>
+            <Button text="Cancelar" type="Ghost"  press="onCloseCrear" />
+            <Button text="Guardar Cambios" type="Ghost"  press="onHandleSaveCrear"  />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

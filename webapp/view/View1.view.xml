@@ -51,7 +51,19 @@
 		items="{
 			path: 'aModelVuelos>/'
 		}">
-		
+		<headerToolbar>
+			<OverflowToolbar>
+				<content>
+					<Title text="Vuelos" level="H2"/>
+					<ToolbarSpacer />
+					
+					<ToggleButton id="toggleInfoToolbar"
+						text="Crear"
+						press="onHandleCrear"
+						icon="sap-icon://create" />
+				</content>
+			</OverflowToolbar>
+		</headerToolbar>
 		
 		<columns>
 			<Column

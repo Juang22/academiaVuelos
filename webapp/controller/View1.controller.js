@@ -1,11 +1,13 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/Fragment",
+    "../model/formatter"
 ],
-function (Controller,Fragment) {
+function (Controller,Fragment,formatter) {
     "use strict";
 
     return Controller.extend("academia.vuelos.controller.View1", {
+        formatter: formatter,
         onInit: function () {
 
         },
@@ -18,15 +20,39 @@ function (Controller,Fragment) {
             const oModelAerolineas = new sap.ui.model.json.JSONModel(aAerolineas);
             this.getView().setModel(oModelAerolineas, "oModelAerolineas");
 
+
+
+
+            let aEstado = [{estado:'En Horario', valor:'1'},
+                {estado:'Embarcando',valor:'2'},
+                {estado:'Demorado',valor:'3'},
+                {estado:'Cancelado',valor:'4'},
+            ];
+            const oModelEstado = new sap.ui.model.json.JSONModel(aEstado);
+            this.getView().setModel(oModelEstado, "oModelEstado");
+
             const aModelVuelos = new sap.ui.model.json.JSONModel(aAerolineas);
             this.getView().setModel(aModelVuelos, "aModelVuelos");
 
             const oModelEdit = new sap.ui.model.json.JSONModel();
             this.getView().setModel(oModelEdit, "oModelEdit");
 
+            let modelCreate = {
+                'IdVuelo':'',
+                'Fecha':'',
+                'Aerolinea':'',
+                'Destino':'',
+                'Salida':'',
+                'EstadoVuelo':''
+            }
+            const oModelCreate = new sap.ui.model.json.JSONModel(modelCreate);
+            this.getView().setModel(oModelCreate, "oModelCreate");
+
 
             let oFilter = []
             this._getDataVuelos(oFilter)
+
+            this._oBundle = this.getView().getModel("i18n").getResourceBundle();
         },
 
         onSearch: function(oEvent) {
@@ -68,7 +94,10 @@ function (Controller,Fragment) {
             });
         },
 
-        onHandleUpdate: function(oEvent) {
+        // update -----------------------------------
+
+
+        onHandleUpdate: async function(oEvent) {
             let { IdVuelo } = oEvent.getSource().getBindingContext('aModelVuelos').getProperty();
             let { Fecha } = oEvent.getSource().getBindingContext('aModelVuelos').getProperty()
             let { Destino } = oEvent.getSource().getBindingContext('aModelVuelos').getProperty();
@@ -78,33 +107,22 @@ function (Controller,Fragment) {
 
             this.getView().getModel('oModelEdit').setData({IdVuelo,Fecha,Destino,Salida,EstadoVuelo,Aerolinea})
 
-            if (!this.nameDialog) {
-                Fragment.load({
-                    name: `academia.vuelos.view.fragment.Edit`,
-                    controller: this,
-                    id: this.getView().getId(),
-                }).then(
-                    function (oDialog) {
-                        this.nameDialog = oDialog;
-                        this.getView().addDependent(oDialog);
-                        this.nameDialog.attachAfterClose(function (oEvent) {
-                            oEvent.getSource().destroy();
-                        });
-                        this.nameDialog.open();
-                    }.bind(this)
-                );
-            };
+            this.fragmentUpdate = await this._openFragment('Edit',this.fragmentEdit);
+            
         },
 
         onCloseEdit:function() {
-            this.nameDialog.close()
+            this.fragmentUpdate.close()
         },
 
+        // Edit ------------------------------------
 
         onHandleSaveEdit: function() {
             let parameters = this.getView().getModel('oModelEdit').getData();
 
-            let path = `/vueloSet(IdVuelo='${parameters.IdVuelo}',Fecha='${parameters.Fecha}')`
+            var fechaCodificada = this.formatter._formatFecha(parameters.Fecha);
+
+            let path = `/vueloSet(IdVuelo='${parameters.IdVuelo}',Fecha='${fechaCodificada}')`
             let oModel = this.getView().getModel() 
                 oModel.update(path, parameters,{
                     success: function (oData) {
@@ -117,7 +135,65 @@ function (Controller,Fragment) {
                   });
 
 
-        }
+        },
+
+
+        // Create --------------------------------------------------
+
+
+
+
+        onHandleCrear: async function() {
+            this.fragmentCrear = await this._openFragment('CreateVuelo',this.CrearVuelo)
+        },
+
+        onCloseCrear: function(){
+            this.fragmentCrear.close()
+        },
+
+        onHandleSaveCrear: function() {
+
+            let oModel = this.getView().getModel() 
+            let oModelCreate = this.getView().getModel('oModelCreate').getData()
+            // oModelCreate.Fecha = this.formatter._formatFechaCreate(oModelCreate.Fecha);
+            oModelCreate.Fecha = new Date(oModelCreate.Fecha)
+
+           
+                oModel.create('/vueloSet', oModelCreate,{
+                    success: function (oData) {
+                        sap.m.MessageToast.show(this._oBundle.getText('mensajeCreate'));
+                        this.fragmentCrear.close()
+                    }.bind(this),
+                    error: function () {
+                      sap.m.MessageToast.show("Error al conectar con SAP");
+                    }.bind(this),
+                  });
+
+        },
+        // fragment ----------------------
+
+        _openFragment: function(name,nameFragment) {
+
+            return new Promise((resolve,reject) => {
+                if (!nameFragment) {
+                    Fragment.load({
+                        name: `academia.vuelos.view.fragment.${name}`,
+                        controller: this,
+                        id: this.getView().getId(),
+                    }).then(
+                        function (oDialog) {
+                            nameFragment = oDialog;
+                            this.getView().addDependent(oDialog);
+                            nameFragment.attachAfterClose(function (oEvent) {
+                                oEvent.getSource().destroy();
+                            });
+                            nameFragment.open();
+                            resolve(nameFragment)
+                        }.bind(this)
+                    );
+                };
+            })
+        },
 
     });
 });
